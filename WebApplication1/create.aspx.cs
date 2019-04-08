@@ -23,6 +23,7 @@ namespace WebApplication1
                 Response.Redirect("Teacher_DashBoard.aspx");
             if (!IsPostBack)
             {
+                Calendar1.Visible = false;
                 Label1.Text = "Welcome " + Session["ID"] + ", " + Session["NAME"];
                 populate_course();
                 ddl_branch.Items.Insert(0, liselect);
@@ -274,6 +275,7 @@ namespace WebApplication1
         protected void Calendar1_SelectionChanged(object sender, EventArgs e)
         {
             Tbox_deadline.Text = Calendar1.SelectedDate.ToString("yyyy-M-dd");
+            Calendar1.Visible = false;
         }
         private bool empty_TBOX()
         {
@@ -335,10 +337,7 @@ namespace WebApplication1
             }
         }
 
-        protected void Calendar1_DayRender1(object sender, DayRenderEventArgs e)
-        {
-
-        }
+       
 
        
     }

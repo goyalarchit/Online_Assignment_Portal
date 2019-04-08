@@ -196,12 +196,12 @@
                 <td class="auto-style9">
                     <asp:TextBox ID="Tbox_deadline" runat="server"></asp:TextBox>
                     &nbsp;&nbsp;&nbsp;
-                    <asp:ImageButton ID="ImageButton1" runat="server" Height="25px" ImageUrl="C:\Users\VIVEK GOYAL\Documents\Visual Studio 2015\Projects\WebApplication1\WebApplication1\IMAGES\calender.png" OnClick="ImageButton1_Click" Width="21px" />
+                    <asp:ImageButton ID="ImageButton1" runat="server" Height="25px" ImageUrl="~/IMAGES/calender.png" OnClick="ImageButton1_Click" Width="21px" />
                 </td>
                 <td class="auto-style8">
                     <asp:Label ID="lbl_deadline" runat="server"></asp:Label>
                     <br />
-                    <asp:Calendar ID="Calendar1" runat="server" BackColor="#FFFFCC" BorderColor="#FFCC66" BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt" ForeColor="#663399" Height="200px" OnDayRender="Calendar1_DayRender1" OnSelectionChanged="Calendar1_SelectionChanged" ShowGridLines="True" Width="220px">
+                    <asp:Calendar ID="Calendar1" runat="server" BackColor="#FFFFCC" BorderColor="#FFCC66" BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt" ForeColor="#663399" Height="200px" OnDayRender="Calendar1_DayRender" OnSelectionChanged="Calendar1_SelectionChanged" ShowGridLines="True" Width="220px">
                         <DayHeaderStyle BackColor="#FFCC66" Font-Bold="True" Height="1px" />
                         <NextPrevStyle Font-Size="9pt" ForeColor="#FFFFCC" />
                         <OtherMonthDayStyle ForeColor="#CC9966" />
@@ -240,7 +240,7 @@
                 <td class="auto-style7">&nbsp;</td>
                 <td class="auto-style3">&nbsp;</td>
                 <td class="auto-style9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <asp:Button ID="Button1" runat="server" Text="Register" OnClick="Button1_Click" />
+                    <asp:Button ID="Button1" runat="server" Text="Submit" OnClick="Button1_Click" />
                 </td>
                 <td class="auto-style8">&nbsp;</td>
             </tr>
@@ -254,7 +254,7 @@
                 <td class="auto-style7">&nbsp;</td>
                 <td class="auto-style3">&nbsp;</td>
                 <td class="auto-style9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <asp:LinkButton ID="LinkButton2" runat="server" OnClick="LinkButton1_Click">Already Registered Login Here</asp:LinkButton>
+                    <asp:LinkButton ID="LinkButton2" runat="server" OnClick="LinkButton1_Click">Go Back To DashBoard</asp:LinkButton>
                 </td>
                 <td class="auto-style8">&nbsp;</td>
             </tr>

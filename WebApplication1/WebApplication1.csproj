@@ -87,6 +87,8 @@
     <Content Include="Register_Teacher.aspx" />
     <Content Include="successful.aspx" />
     <Content Include="Teacher_DashBoard.aspx" />
+    <Content Include="view.aspx" />
+    <Content Include="view_status.aspx" />
     <Content Include="Web.config" />
     <Content Include="WebForm1.aspx" />
   </ItemGroup>
@@ -140,6 +142,20 @@
     </Compile>
     <Compile Include="Teacher_DashBoard.aspx.designer.cs">
       <DependentUpon>Teacher_DashBoard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="view.aspx.cs">
+      <DependentUpon>view.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="view.aspx.designer.cs">
+      <DependentUpon>view.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="view_status.aspx.cs">
+      <DependentUpon>view_status.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="view_status.aspx.designer.cs">
+      <DependentUpon>view_status.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>

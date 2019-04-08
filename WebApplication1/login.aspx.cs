@@ -69,7 +69,7 @@ namespace WebApplication1
                 if (authenticate(TextBox1.Text, TextBox2.Text, utype))
                 {
                     if(utype==1)
-                        Response.Redirect("Successful.aspx");
+                        Response.Redirect("view_status.aspx");
                     else
                         Response.Redirect("Teacher_DashBoard.aspx");
                 }

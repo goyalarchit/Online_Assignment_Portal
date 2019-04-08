@@ -21,5 +21,20 @@ namespace WebApplication1
             }
 
         }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("view_status.aspx");
+        }
+
+        protected void Button3_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("upload.aspx");
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/successful.aspx");
+        }
     }
 }
