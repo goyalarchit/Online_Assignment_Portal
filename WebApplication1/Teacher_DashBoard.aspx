@@ -75,8 +75,7 @@
             <tr>
                 <td class="auto-style2">&nbsp;</td>
                 <td class="auto-style1">
-                    <asp:Button ID="Button3" runat="server" Height="47px" Text="GRADE ASSIGNMENT" Width="231px" OnClick="Button3_Click" />
-                </td>
+                    &nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>

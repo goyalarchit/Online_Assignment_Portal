@@ -41,9 +41,6 @@ namespace WebApplication1
             Response.Redirect("view.aspx");
         }
 
-        protected void Button3_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("grade.aspx");
-        }
+        
     }
 }

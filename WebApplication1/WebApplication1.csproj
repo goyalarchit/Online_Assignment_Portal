@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="create.aspx" />
+    <Content Include="grade.aspx" />
     <Content Include="login.aspx" />
     <Content Include="packages.config" />
     <Content Include="app.config" />
@@ -99,6 +100,13 @@
     </Compile>
     <Compile Include="create.aspx.designer.cs">
       <DependentUpon>create.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="grade.aspx.cs">
+      <DependentUpon>grade.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="grade.aspx.designer.cs">
+      <DependentUpon>grade.aspx</DependentUpon>
     </Compile>
     <Compile Include="login.aspx.cs">
       <DependentUpon>login.aspx</DependentUpon>

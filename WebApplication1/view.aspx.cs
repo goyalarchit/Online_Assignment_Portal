@@ -59,5 +59,20 @@ namespace WebApplication1
                 return true;
             return false;
         }
+
+        protected void grade(object sender, GridViewCommandEventArgs e)
+        {
+            
+
+
+
+        }
+
+        protected void grade(object sender, GridViewUpdateEventArgs e)
+        {
+            Session["A_ID"] = e.Keys[0].ToString();
+            Response.Redirect("~/grade.aspx");
+
+        }
     }
 }
