@@ -1,96 +1,77 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Teacher_DashBoard.aspx.cs" Inherits="WebApplication1.Teacher_DashBoard" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Teacher_DashBoard.aspx.cs" Inherits="WebApplication1.Teacher_DashBoard" MasterPageFile="~/Site2.Master" %>
+<asp:Content ID="teacher_detail" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+<asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+</asp:Content>
+<asp:Content ID="teacher_dashboard" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    
+    <div class="box">
+        <div class="box-top">
+        </div>
+        <div class="box-in">
+            <h2> Faculty Details</h2>
+        <table style="border-style: none; border-width: thin; border-color: #FFFFFF; background-color: #FFFFFF; table-layout: auto">
+            <tr>
+                <td class="auto-style7" style="width: 229px">
 
-<!DOCTYPE html>
+                    NAME</td>
+                
+                <td class="auto-style5" style="width: 299px">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-    <style type="text/css">
-        .auto-style1 {
-            width: 775px;
-        }
-        .auto-style2 {
-            width: 439px;
-        }
-    </style>
-</head>
-<body>
-    <form id="form1" runat="server">
+                    <asp:Label ID="lbl_name" runat="server"></asp:Label>
+
+                </td>
+                
+            </tr>
+
+
+
+            <tr>
+                <td class="auto-style8" style="width: 229px">
+
+                    SAP ID</td>
+                
+                <td class="auto-style9" style="width: 299px">
+
+                    <asp:Label ID="lbl_sap" runat="server"></asp:Label>
+
+                </td>
+                
+            </tr>
+
+
+
+            <tr>
+                <td class="auto-style7" style="width: 229px">
+
+                    EMPLOYEE NUMBER</td>
+                
+                <td class="auto-style5" style="width: 299px">
+
+                    <asp:Label ID="lbl_empno" runat="server"></asp:Label>
+
+                </td>
+                
+            </tr>
+
+
+
+            </table>
+    
+            <br />
+            <h4 >
+                    &nbsp;</h4>
+            
+        </div>
+    </div>
     <div>
     
-        <table style="width:100%;">
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">
-                    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
-                </td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>
-                    <asp:LinkButton ID="LinkButton1" runat="server">Logout</asp:LinkButton>
-                </td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">
-                    <asp:Button ID="Button1" runat="server" Height="47px" Text="CREATE ASSIGNMENT" Width="231px" OnClick="Button1_Click" />
-                </td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">
-                    <asp:Button ID="Button2" runat="server" Height="47px" Text="VIEW ASSIGNMENT" Width="231px" OnClick="Button2_Click" />
-                </td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">
-                    &nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-        </table>
-    
+         
     </div>
-    </form>
-</body>
-</html>
+
+
+    <div>
+
+    
+        
+    </div>
+</asp:Content>

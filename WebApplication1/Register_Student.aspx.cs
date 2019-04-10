@@ -110,123 +110,194 @@ namespace WebApplication1
         }
         private bool validate()
         {
-            if (string.IsNullOrWhiteSpace(TextBox1.Text) || string.IsNullOrWhiteSpace(TextBox2.Text) || string.IsNullOrWhiteSpace(TextBox3.Text) || string.IsNullOrWhiteSpace(TextBox4.Text) || string.IsNullOrWhiteSpace(TextBox5.Text))
-            {
-                Response.Write("<script>alert('FILL ALL REQUIRED FIELDS')</script>");
-                return false;
-            }
-
-            if (ddl_course.SelectedItem.Text == "Select" || ddl_branch.SelectedItem.Text == "Select" || ddl_spl.SelectedItem.Text == "Select" || ddl_sem.SelectedItem.Text == "Select" || ddl_class.SelectedItem.Text == "Select")
-            {
-                Response.Write("<script>alert('FILL ALL REQUIRED FIELDS')</script>");
-                return false;
-            }
-            if (ddl_course.Items.Count < 1 || ddl_branch.Items.Count < 1 || ddl_spl.Items.Count < 1 || ddl_sem.Items.Count < 1 || ddl_class.Items.Count < 1)
-            {
-                Response.Write("<script>alert('FILL ALL REQUIRED FIELDS')</script>");
-                return false;
-            }
+            int f = 1;
             if (!Regex.IsMatch(TextBox4.Text, @"^[a-zA-Z ]+$"))
             {
-                Response.Write("<script>alert('NAME CAN CONTAIN ONLY LETTERS')</script>");
-                return false;
+                Label1.Text="NAME CAN CONTAIN ONLY LETTERS";
+                f = 0;
             }
             if (!Regex.IsMatch(TextBox1.Text, @"^[0-9]+$"))
             {
-                Response.Write("<script>alert('SAP_ID CAN CONTAIN ONLY DIGITS')</script>");
-                return false;
+                Label8.Text="SAP ID CAN CONTAIN ONLY DIGITS";
+                f = 0;
             }
             if (!Regex.IsMatch(TextBox5.Text, @"^[0-9]+$"))
             {
-                Response.Write("<script>alert('ROLL NUMBER CAN CONTAIN ONLY DIGITS')</script>");
-                return false;
+                Label2.Text = "ROLL NUMBER CAN CONTAIN ONLY DIGITS";
+                f = 0;
             }
+            if (string.IsNullOrWhiteSpace(TextBox1.Text))
+            {
+                Label8.Text = "Required";
+                f=0;
+            }
+            if (string.IsNullOrWhiteSpace(TextBox2.Text))
+            {
+                Label9.Text = "Required";
+                f=0;
+            }
+            if (string.IsNullOrWhiteSpace(TextBox3.Text))
+            {
+                Label10.Text = "Required";
+                f = 0;
+            }
+            if (string.IsNullOrWhiteSpace(TextBox4.Text))
+            {
+                Label1.Text = "Required";
+                f = 0;
+            }
+            if (string.IsNullOrWhiteSpace(TextBox5.Text))
+            {
+                Label2.Text = "Required";
+                f = 0;
+            }
+            if (ddl_course.SelectedItem.Text == "Select")
+            {
+                Label3.Text="Required";
+                f = 0;
+            }
+            if (ddl_branch.SelectedItem.Text == "Select")
+            {
+                Label4.Text = "Required";
+                f = 0;
+            }
+            if (ddl_spl.SelectedItem.Text == "Select")
+            {
+                Label5.Text = "Required";
+                f = 0;
+            }
+            if (ddl_sem.SelectedItem.Text == "Select")
+            {
+                Label6.Text = "Required";
+                f = 0;
+            }
+            if (ddl_class.SelectedItem.Text == "Select")
+            {
+                Label7.Text = "Required";
+                f = 0;
+            }
+            
             if (TextBox2.Text != TextBox3.Text)
             {
-                Response.Write("<script>alert('PASSWORD DOES NOT MATCH')</script>");
-                return false;
+                Label10.Text = "PASSWORD DOES NOT MATCH";
+                f = 0;
             }
-            MySqlConnection con = new MySqlConnection(cs);
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand("Select count(*) from student_info where ROLL_NO=@ROLL_NO;", con);
-            cmd.Parameters.AddWithValue("@ROLL_NO", TextBox5.Text);
-            int f = Convert.ToInt32(cmd.ExecuteScalar());
-            con.Close();
-            if (f == 1)
+
+            try
             {
-                Response.Write("<script>alert('USER ALREADY EXISTS/ CONTACT SYSTEM ADMINISTRATOR')</script>");
-                return false;
+                MySqlConnection con = new MySqlConnection(cs);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("Select count(*) from student_info where ROLL_NO=@ROLL_NO;", con);
+                cmd.Parameters.AddWithValue("@ROLL_NO", TextBox5.Text);
+                int flag = Convert.ToInt32(cmd.ExecuteScalar());
+                con.Close();
+                if (flag == 1)
+                {
+                    Label11.Text="USER ALREADY EXISTS/ CONTACT SYSTEM ADMINISTRATOR";
+                    f = 0;
+                }
+                con.Open();
+                cmd.CommandText = "Select count(*) from login_info where SAP_ID=@SAP_ID;";
+                cmd.Parameters.AddWithValue("@SAP_ID", TextBox1.Text);
+                flag = Convert.ToInt32(cmd.ExecuteScalar());
+                con.Close();
+                if (flag == 1)
+                {
+                    Label11.Text = "USER ALREADY EXISTS/ CONTACT SYSTEM ADMINISTRATOR";
+                    f = 0;
+                }
             }
-            con.Open();
-            cmd.CommandText = "Select count(*) from login_info where SAP_ID=@SAP_ID;";
-            cmd.Parameters.AddWithValue("@SAP_ID", TextBox1.Text);
-            f = Convert.ToInt32(cmd.ExecuteScalar());
-            con.Close();
-            if (f == 1)
+            catch (Exception )
             {
-                Response.Write("<script>alert('USER ALREADY EXISTS/ CONTACT SYSTEM ADMINISTRATOR')</script>");
+                Label11.Text = "SOME ERROR OCCURRED :( PLEASE TRY AGAIN LATER";
                 return false;
             }
+            if (f == 0)
+                return false;
             return true;
         }
         private bool update_db_login()
         {
 
-            MySqlConnection con = new MySqlConnection(cs);
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand("INSERT INTO `web1`.`login_info` (`SAP_ID`, `PWD`, `UTYPE`) VALUES (@SAP_ID, @PWD, '1');", con);
-            cmd.Parameters.AddWithValue("@SAP_ID", TextBox1.Text);
-            cmd.Parameters.AddWithValue("@PWD", TextBox2.Text);
-            object result = cmd.ExecuteNonQuery();
-            result = result == DBNull.Value ? null : result;
-            int flag = Convert.ToInt32(result);
-            con.Close();
-            if (flag == 1)
+            try
             {
-                return true;
+                MySqlConnection con = new MySqlConnection(cs);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("INSERT INTO `web1`.`login_info` (`SAP_ID`, `PWD`, `UTYPE`) VALUES (@SAP_ID, @PWD, '1');", con);
+                cmd.Parameters.AddWithValue("@SAP_ID", TextBox1.Text);
+                cmd.Parameters.AddWithValue("@PWD", TextBox2.Text);
+                object result = cmd.ExecuteNonQuery();
+                result = result == DBNull.Value ? null : result;
+                int flag = Convert.ToInt32(result);
+                con.Close();
+                if (flag == 1)
+                {
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception )
+            {
+                Label11.Text = "SOME ERROR OCCURRED :( PLEASE TRY AGAIN LATER";
+                return false;
+            }
         }
         private bool update_db_student()
         {
 
-            MySqlConnection con = new MySqlConnection(cs);
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand("INSERT INTO `web1`.`student_info` (`SAP_ID`, `ROLL_NO`, `NAME`, `COURSE`, `BRANCH`, `SPECIALISATION`, `SEMESTER`, `CLASS`) VALUES (@SAP_ID, @ROLL_NO, @NAME, @COURSE, @BRANCH, @SPECIALISATION, @SEMESTER, @CLASS);", con);
-            cmd.Parameters.AddWithValue("@SAP_ID", TextBox1.Text);
-            cmd.Parameters.AddWithValue("@ROLL_NO", TextBox5.Text);
-            cmd.Parameters.AddWithValue("@NAME", TextBox4.Text);
-            cmd.Parameters.AddWithValue("@COURSE", ddl_course.SelectedItem.Text);
-            cmd.Parameters.AddWithValue("@BRANCH", ddl_branch.SelectedItem.Text);
-            cmd.Parameters.AddWithValue("@SPECIALISATION", ddl_spl.SelectedItem.Text);
-            cmd.Parameters.AddWithValue("@SEMESTER", ddl_sem.SelectedItem.Text);
-            cmd.Parameters.AddWithValue("@CLASS", ddl_class.SelectedItem.Text);
-            object result = cmd.ExecuteNonQuery();
-            result = result == DBNull.Value ? null : result;
-            int flag = Convert.ToInt32(result);
-            con.Close();
-            if (flag == 1)
+            try
             {
-                return true;
+                MySqlConnection con = new MySqlConnection(cs);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("INSERT INTO `web1`.`student_info` (`SAP_ID`, `ROLL_NO`, `NAME`, `COURSE`, `BRANCH`, `SPECIALISATION`, `SEMESTER`, `CLASS`) VALUES (@SAP_ID, @ROLL_NO, @NAME, @COURSE, @BRANCH, @SPECIALISATION, @SEMESTER, @CLASS);", con);
+                cmd.Parameters.AddWithValue("@SAP_ID", TextBox1.Text);
+                cmd.Parameters.AddWithValue("@ROLL_NO", TextBox5.Text);
+                cmd.Parameters.AddWithValue("@NAME", TextBox4.Text);
+                cmd.Parameters.AddWithValue("@COURSE", ddl_course.SelectedItem.Text);
+                cmd.Parameters.AddWithValue("@BRANCH", ddl_branch.SelectedItem.Text);
+                cmd.Parameters.AddWithValue("@SPECIALISATION", ddl_spl.SelectedItem.Text);
+                cmd.Parameters.AddWithValue("@SEMESTER", ddl_sem.SelectedItem.Text);
+                cmd.Parameters.AddWithValue("@CLASS", ddl_class.SelectedItem.Text);
+                object result = cmd.ExecuteNonQuery();
+                result = result == DBNull.Value ? null : result;
+                int flag = Convert.ToInt32(result);
+                con.Close();
+                if (flag == 1)
+                {
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+                Label11.Text = "SOME ERROR OCCURRED :( PLEASE TRY AGAIN LATER";
+                return false;
+            }
         }
         private bool roll_back_login()
         {
 
-            MySqlConnection con = new MySqlConnection(cs);
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand("DELETE FROM `web1`.`login_info` WHERE (`SAP_ID` = @SAP_ID);", con);
-            cmd.Parameters.AddWithValue("@SAP_ID", TextBox1.Text);
-            object result = cmd.ExecuteNonQuery();
-            result = result == DBNull.Value ? null : result;
-            int flag = Convert.ToInt32(result);
-            con.Close();
-            if (flag == 1)
+            try
             {
-                return true;
+                MySqlConnection con = new MySqlConnection(cs);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("DELETE FROM `web1`.`login_info` WHERE (`SAP_ID` = @SAP_ID);", con);
+                cmd.Parameters.AddWithValue("@SAP_ID", TextBox1.Text);
+                object result = cmd.ExecuteNonQuery();
+                result = result == DBNull.Value ? null : result;
+                int flag = Convert.ToInt32(result);
+                con.Close();
+                if (flag == 1)
+                {
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+                Label11.Text = "SOME ERROR OCCURRED :( PLEASE TRY AGAIN LATER";
+                return false;
+            }
         }
     }
 

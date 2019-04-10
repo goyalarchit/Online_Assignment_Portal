@@ -14,24 +14,29 @@ namespace WebApplication1
         String cs = @"server=localhost;Database=web1;Uid=root;Pwd=mysql;";
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.UrlReferrer == null)
+            if (Request.UrlReferrer == null || Session["ID"]==null)
                 Response.Redirect("login.aspx");
             if(!IsPostBack)
             {
                 Label1.Text = "Welcome " + Session["ID"] + ", " + Session["NAME"];
-                MySqlConnection con = new MySqlConnection(cs);
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM `web1`.`assignment_info` WHERE SAP_ID_TEACHER=@SAP_ID;", con);
-                cmd.Parameters.AddWithValue("@SAP_ID", Session["ID"]);
-                con.Open();
-                g1.DataSource = cmd.ExecuteReader();
-                g1.DataBind();
-                con.Close();
+                try
+                {
+                    MySqlConnection con = new MySqlConnection(cs);
+                    MySqlCommand cmd = new MySqlCommand("SELECT * FROM `web1`.`assignment_info` WHERE SAP_ID_TEACHER=@SAP_ID;", con);
+                    cmd.Parameters.AddWithValue("@SAP_ID", Session["ID"]);
+                    con.Open();
+                    g1.DataSource = cmd.ExecuteReader();
+                    g1.DataBind();
+                    con.Close();
+                }
+                catch (Exception)
+                {
+                    Response.Write("<script>alert('SOME ERROR OCCURED / REDIRECTING TO DASHBOARD')</script>");
+                    Response.Redirect("~/Teacher_DashBoard.aspx");
+                }
             }
         }
-        protected void LinkButton1_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("Teacher_Dashboard.aspx");
-        }
+        
 
         protected void g1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
@@ -49,25 +54,25 @@ namespace WebApplication1
         }
         protected bool delete(string aid)
         {
-            MySqlConnection con = new MySqlConnection(@"server='localhost';user id='root';password=mysql;database=web1");
-            MySqlCommand cmd = new MySqlCommand("Delete from assignment_info where A_ID=@A_ID;", con);
-            cmd.Parameters.AddWithValue("@A_ID", aid);
-            con.Open();
-            int f = cmd.ExecuteNonQuery();
-            con.Close();
-            if (f == 1)
-                return true;
-            return false;
+            try
+            {
+                MySqlConnection con = new MySqlConnection(@"server='localhost';user id='root';password=mysql;database=web1");
+                MySqlCommand cmd = new MySqlCommand("Delete from assignment_info where A_ID=@A_ID;", con);
+                cmd.Parameters.AddWithValue("@A_ID", aid);
+                con.Open();
+                int f = cmd.ExecuteNonQuery();
+                con.Close();
+                if (f == 1)
+                    return true;
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        protected void grade(object sender, GridViewCommandEventArgs e)
-        {
-            
-
-
-
-        }
-
+        
         protected void grade(object sender, GridViewUpdateEventArgs e)
         {
             Session["A_ID"] = e.Keys[0].ToString();

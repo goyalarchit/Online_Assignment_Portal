@@ -19,7 +19,7 @@ namespace WebApplication1
         ListItem liselect = new ListItem("Select", "-1");
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.UrlReferrer == null)
+            if (Request.UrlReferrer == null || Session["ID"]==null)
                 Response.Redirect("Teacher_DashBoard.aspx");
             if (!IsPostBack)
             {
@@ -36,58 +36,90 @@ namespace WebApplication1
 
         public void populate_course()
         {
-            MySqlConnection con = new MySqlConnection(cs);
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand("Select * from course", con);
-            ddl_course.DataSource = cmd.ExecuteReader();
-            ddl_course.DataTextField = "COURSE_NAME";
-            ddl_course.DataValueField = "COURSE_ID";
-            ddl_course.DataBind();
-            con.Close();
+            try
+            {
+                MySqlConnection con = new MySqlConnection(cs);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("Select * from course", con);
+                ddl_course.DataSource = cmd.ExecuteReader();
+                ddl_course.DataTextField = "COURSE_NAME";
+                ddl_course.DataValueField = "COURSE_ID";
+                ddl_course.DataBind();
+                con.Close();
+            }
+            catch (Exception)
+            {
+                Response.Write("<script>alert('SOME ERROR OCCURRED')</script>");
+                Response.Redirect("~/Teacher_DashBoard.aspx");
+            }
         }
 
 
         protected void populate_branch(object sender, EventArgs e)
         {
-            MySqlConnection con = new MySqlConnection(cs);
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand("Select * from branch where COURSE_ID=" + ddl_course.SelectedValue, con);
-            ddl_branch.Items.Clear();
-            ddl_branch.DataSource = cmd.ExecuteReader();
-            ddl_branch.DataTextField = "BRANCH_NAME";
-            ddl_branch.DataValueField = "BRANCH_ID";
-            ddl_branch.DataBind();
-            ddl_branch.Items.Insert(0, liselect);
-            con.Close();
+            try
+            {
+                MySqlConnection con = new MySqlConnection(cs);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("Select * from branch where COURSE_ID=" + ddl_course.SelectedValue, con);
+                ddl_branch.Items.Clear();
+                ddl_branch.DataSource = cmd.ExecuteReader();
+                ddl_branch.DataTextField = "BRANCH_NAME";
+                ddl_branch.DataValueField = "BRANCH_ID";
+                ddl_branch.DataBind();
+                ddl_branch.Items.Insert(0, liselect);
+                con.Close();
+            }
+            catch (Exception)
+            {
+                Response.Write("<script>alert('SOME ERROR OCCURRED')</script>");
+                Response.Redirect("~/Teacher_DashBoard.aspx");
+            }
         }
 
         protected void populate_specialization(object sender, EventArgs e)
         {
-            MySqlConnection con = new MySqlConnection(cs);
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand("Select * from specialisation where BRANCH_ID=" + ddl_branch.SelectedValue, con);
-            ddl_spl.Items.Clear();
-            ddl_spl.DataSource = cmd.ExecuteReader();
-            ddl_spl.DataTextField = "SPECIALISATION_NAME";
-            ddl_spl.DataValueField = "SPECIALISATION_ID";
-            ddl_spl.DataBind();
-            ddl_spl.Items.Insert(0, liselect);
-            con.Close();
+            try
+            {
+                MySqlConnection con = new MySqlConnection(cs);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("Select * from specialisation where BRANCH_ID=" + ddl_branch.SelectedValue, con);
+                ddl_spl.Items.Clear();
+                ddl_spl.DataSource = cmd.ExecuteReader();
+                ddl_spl.DataTextField = "SPECIALISATION_NAME";
+                ddl_spl.DataValueField = "SPECIALISATION_ID";
+                ddl_spl.DataBind();
+                ddl_spl.Items.Insert(0, liselect);
+                con.Close();
+            }
+            catch (Exception)
+            {
+                Response.Write("<script>alert('SOME ERROR OCCURRED')</script>");
+                Response.Redirect("~/Teacher_DashBoard.aspx");
+            }
         }
 
         protected void populate_class(object sender, EventArgs e)
         {
-            MySqlConnection con = new MySqlConnection(cs);
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand("Select * from class where SPECIALISATION_ID=" + ddl_spl.SelectedValue, con);
-            ddl_class.Items.Clear();
+            try
+            {
+                MySqlConnection con = new MySqlConnection(cs);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("Select * from class where SPECIALISATION_ID=" + ddl_spl.SelectedValue, con);
+                ddl_class.Items.Clear();
 
-            ddl_class.DataSource = cmd.ExecuteReader();
-            ddl_class.DataTextField = "CLASS_NAME";
-            ddl_class.DataValueField = "CLASS_ID";
-            ddl_class.DataBind();
-            ddl_class.Items.Insert(0, liselect);
-            con.Close();
+                ddl_class.DataSource = cmd.ExecuteReader();
+                ddl_class.DataTextField = "CLASS_NAME";
+                ddl_class.DataValueField = "CLASS_ID";
+                ddl_class.DataBind();
+                ddl_class.Items.Insert(0, liselect);
+                con.Close();
+            }
+            catch (Exception)
+            {
+                Response.Write("<script>alert('SOME ERROR OCCURRED')</script>");
+                Response.Redirect("~/Teacher_DashBoard.aspx");
+            }
         }
 
         protected void Button1_Click(object sender, EventArgs e)
@@ -147,70 +179,94 @@ namespace WebApplication1
         private bool update_db_assignment()
         {
 
-            MySqlConnection con = new MySqlConnection(cs);
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand("INSERT INTO `web1`.`assignment_info` (`ASSIGNMENT_TITLE`, `SUBJECT`, `SUBJECT_CODE`, `COURSE`, `BRANCH`, `SPECIALISATION`, `SEMESTER`, `CLASS`, `DESCRIPTION`, `SAP_ID_TEACHER`, `DEADLINE`, `MAX_MARKS`, `DATE_ASSIGNED`) VALUES (@ASSIGNMENT_TITLE, @SUBJECT, @SUBJECT_CODE, @COURSE, @BRANCH, @SPECIALISATION, @SEMESTER, @CLASS, @DESCRIPTION, @SAP_ID_TEACHER, @DEADLINE, @MAX_MARKS, @DATE_ASSIGNED);", con);
-            // `DEADLINE`, `MAX_MARKS`, `DATE_ASSIGNED`
-            
-            cmd.Parameters.AddWithValue("@ASSIGNMENT_TITLE", Tbox_Title.Text);
-            cmd.Parameters.AddWithValue("@SUBJECT", Tbox_sub.Text);
-            cmd.Parameters.AddWithValue("@SUBJECT_CODE", Tbox_scode.Text);
-            cmd.Parameters.AddWithValue("@COURSE", ddl_course.SelectedItem.Text);
-            cmd.Parameters.AddWithValue("@BRANCH", ddl_branch.SelectedItem.Text);
-            cmd.Parameters.AddWithValue("@SPECIALISATION", ddl_spl.SelectedItem.Text);
-            cmd.Parameters.AddWithValue("@SEMESTER", ddl_sem.SelectedItem.Text);
-            cmd.Parameters.AddWithValue("@CLASS", ddl_class.SelectedItem.Text);
-            cmd.Parameters.AddWithValue("@DESCRIPTION", "UPDATED SOON");
-            cmd.Parameters.AddWithValue("@SAP_ID_TEACHER", Session["ID"]);
-            cmd.Parameters.AddWithValue("@DEADLINE", Tbox_deadline.Text);
-            cmd.Parameters.AddWithValue("@MAX_MARKS", Tbox_marks.Text);
-            cmd.Parameters.AddWithValue("@DATE_ASSIGNED", DateTime.Now.ToString("yyyy-M-dd HH-mm-ss"));
-            object result = cmd.ExecuteNonQuery();
-            result = result == DBNull.Value ? null : result;
-            int flag = Convert.ToInt32(result);
-            con.Close();
-            if (flag == 1)
+            try
             {
-                return true;
+                MySqlConnection con = new MySqlConnection(cs);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("INSERT INTO `web1`.`assignment_info` (`ASSIGNMENT_TITLE`, `SUBJECT`, `SUBJECT_CODE`, `COURSE`, `BRANCH`, `SPECIALISATION`, `SEMESTER`, `CLASS`, `DESCRIPTION`, `SAP_ID_TEACHER`, `DEADLINE`, `MAX_MARKS`, `DATE_ASSIGNED`) VALUES (@ASSIGNMENT_TITLE, @SUBJECT, @SUBJECT_CODE, @COURSE, @BRANCH, @SPECIALISATION, @SEMESTER, @CLASS, @DESCRIPTION, @SAP_ID_TEACHER, @DEADLINE, @MAX_MARKS, @DATE_ASSIGNED);", con);
+                // `DEADLINE`, `MAX_MARKS`, `DATE_ASSIGNED`
+
+                cmd.Parameters.AddWithValue("@ASSIGNMENT_TITLE", Tbox_Title.Text);
+                cmd.Parameters.AddWithValue("@SUBJECT", Tbox_sub.Text);
+                cmd.Parameters.AddWithValue("@SUBJECT_CODE", Tbox_scode.Text);
+                cmd.Parameters.AddWithValue("@COURSE", ddl_course.SelectedItem.Text);
+                cmd.Parameters.AddWithValue("@BRANCH", ddl_branch.SelectedItem.Text);
+                cmd.Parameters.AddWithValue("@SPECIALISATION", ddl_spl.SelectedItem.Text);
+                cmd.Parameters.AddWithValue("@SEMESTER", ddl_sem.SelectedItem.Text);
+                cmd.Parameters.AddWithValue("@CLASS", ddl_class.SelectedItem.Text);
+                cmd.Parameters.AddWithValue("@DESCRIPTION", "UPDATED SOON");
+                cmd.Parameters.AddWithValue("@SAP_ID_TEACHER", Session["ID"]);
+                cmd.Parameters.AddWithValue("@DEADLINE", Tbox_deadline.Text);
+                cmd.Parameters.AddWithValue("@MAX_MARKS", Tbox_marks.Text);
+                cmd.Parameters.AddWithValue("@DATE_ASSIGNED", DateTime.Now.ToString("yyyy-M-dd HH-mm-ss"));
+                object result = cmd.ExecuteNonQuery();
+                result = result == DBNull.Value ? null : result;
+                int flag = Convert.ToInt32(result);
+                con.Close();
+                if (flag == 1)
+                {
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+                Response.Write("<script>alert('SOME ERROR OCCURRED')</script>");
+                return false;
+            }
         }
         private bool roll_back_assignment()
         {
 
-            MySqlConnection con = new MySqlConnection(cs);
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand("DELETE FROM `web1`.`assignment_info` WHERE (`A_ID` = @A_ID);", con);
-            cmd.Parameters.AddWithValue("@A_ID", Aid);
-            object result = cmd.ExecuteNonQuery();
-            result = result == DBNull.Value ? null : result;
-            int flag = Convert.ToInt32(result);
-            con.Close();
-            if (flag == 1)
+            try
             {
-                return true;
+                MySqlConnection con = new MySqlConnection(cs);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("DELETE FROM `web1`.`assignment_info` WHERE (`A_ID` = @A_ID);", con);
+                cmd.Parameters.AddWithValue("@A_ID", Aid);
+                object result = cmd.ExecuteNonQuery();
+                result = result == DBNull.Value ? null : result;
+                int flag = Convert.ToInt32(result);
+                con.Close();
+                if (flag == 1)
+                {
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+                Response.Write("<script>alert('SOME ERROR OCCURRED')</script>");
+                return false;
+            }
         }
 
 
         public bool update_description()
         {
-            MySqlConnection con = new MySqlConnection(cs);
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand("UPDATE `web1`.`assignment_info` SET `DESCRIPTION` = @DESCRIPTION WHERE (`A_ID` = @A_ID);", con);
-            
-            cmd.Parameters.AddWithValue("@DESCRIPTION",filelocation);
-            cmd.Parameters.AddWithValue("@A_ID", Aid);
-            object result = cmd.ExecuteNonQuery();
-            result = result == DBNull.Value ? null : result;
-            int flag = Convert.ToInt32(result);
-            con.Close();
-            if (flag == 1)
+            try
             {
-                return true;
+                MySqlConnection con = new MySqlConnection(cs);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("UPDATE `web1`.`assignment_info` SET `DESCRIPTION` = @DESCRIPTION WHERE (`A_ID` = @A_ID);", con);
+
+                cmd.Parameters.AddWithValue("@DESCRIPTION", filelocation);
+                cmd.Parameters.AddWithValue("@A_ID", Aid);
+                object result = cmd.ExecuteNonQuery();
+                result = result == DBNull.Value ? null : result;
+                int flag = Convert.ToInt32(result);
+                con.Close();
+                if (flag == 1)
+                {
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+                Response.Write("<script>alert('SOME ERROR OCCURRED')</script>");
+                return false;
+            }
         }
 
 
@@ -252,11 +308,6 @@ namespace WebApplication1
                 lbl_upload.ForeColor = System.Drawing.Color.Red;
             }
             return false;
-        }
-
-        protected void LinkButton1_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("Teacher_Dashboard.aspx");
         }
 
         protected void ImageButton1_Click(object sender, ImageClickEventArgs e)

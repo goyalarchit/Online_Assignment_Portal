@@ -39,16 +39,25 @@ namespace WebApplication1
 
         protected bool update_grade_submit(string sid,string grade)
         {
-            MySqlConnection con = new MySqlConnection(@"server='localhost';user id='root';password=mysql;database=web1");
-            MySqlCommand cmd = new MySqlCommand("UPDATE `web1`.`submit_info` SET `GRADE` = @GRADE WHERE (`S_ID` = @S_ID);", con);
-            cmd.Parameters.AddWithValue("@S_ID", sid);
-            cmd.Parameters.AddWithValue("@GRADE", grade);
-            con.Open();
-            int f = cmd.ExecuteNonQuery();
-            con.Close();
-            if (f == 1)
-                return true;
-            return false;
+            try
+            {
+                MySqlConnection con = new MySqlConnection(@"server='localhost';user id='root';password=mysql;database=web1");
+                MySqlCommand cmd = new MySqlCommand("UPDATE `web1`.`submit_info` SET `GRADE` = @GRADE WHERE (`S_ID` = @S_ID);", con);
+                cmd.Parameters.AddWithValue("@S_ID", sid);
+                cmd.Parameters.AddWithValue("@GRADE", grade);
+                con.Open();
+                int f = cmd.ExecuteNonQuery();
+                con.Close();
+                if (f == 1)
+                    return true;
+                return false;
+            }
+            catch (Exception)
+            {
+                Response.Write("<script>alert('SOME ERROR OCCURRED')</script>");
+                return false;
+                throw;
+            }
         }
 
         protected void g1_RowEditing(object sender, GridViewEditEventArgs e)
@@ -63,39 +72,55 @@ namespace WebApplication1
         }
         protected void populate()
         {
-            populate_assignment();
-            MySqlConnection con = new MySqlConnection(cs);
-            MySqlCommand cmd = new MySqlCommand("SELECT * FROM `web1`.`submit_info` WHERE A_ID=@A_ID;", con);
-            cmd.Parameters.AddWithValue("@A_ID", Session["A_ID"]);
-            con.Open();
-            g1.DataSource = cmd.ExecuteReader();
-            g1.DataBind();
-            con.Close();
+            try
+            {
+                populate_assignment();
+                MySqlConnection con = new MySqlConnection(cs);
+                MySqlCommand cmd = new MySqlCommand("SELECT * FROM `web1`.`submit_info` WHERE A_ID=@A_ID;", con);
+                cmd.Parameters.AddWithValue("@A_ID", Session["A_ID"]);
+                con.Open();
+                g1.DataSource = cmd.ExecuteReader();
+                g1.DataBind();
+                con.Close();
+            }
+            catch (Exception)
+            {
+                Response.Write("<script>alert('SOME ERROR OCCURRED')</script>");
+                Response.Redirect("~/Teacher_DashBoard.aspx");
+            }
         }
         protected void populate_assignment()
         {
-            MySqlConnection con = new MySqlConnection(cs);
-            MySqlCommand cmd = new MySqlCommand("SELECT * FROM `web1`.`assignment_info` WHERE A_ID=@A_ID;", con);
-            cmd.Parameters.AddWithValue("@A_ID", Session["A_ID"]);
-            con.Open();
-            MySqlDataReader r1 = cmd.ExecuteReader();
-            while(r1.Read())
+            try
             {
-                lbl_id.Text = Convert.ToString(r1["A_ID"]);
-                lbl_title.Text = Convert.ToString(r1["ASSIGNMENT_TITLE"]);
-                lbl_course.Text = Convert.ToString(r1["COURSE"]);
-                lbl_branch.Text = Convert.ToString(r1["BRANCH"]);
-                lbl_sem.Text = Convert.ToString(r1["SEMESTER"]);
-                lbl_class.Text = Convert.ToString(r1["CLASS"]);
-                lbl_spl.Text = Convert.ToString(r1["SPECIALISATION"]);
-                lbl_deadline.Text = r1["DEADLINE"].ToString();
-                lbl_dateasgn.Text = Convert.ToString(r1["DATE_ASSIGNED"]);
-                lbl_sub.Text = Convert.ToString(r1["SUBJECT"]);
-                lbl_scode.Text = Convert.ToString(r1["SUBJECT_CODE"]);
-                lbl_marks.Text = Convert.ToString(r1["MAX_MARKS"]);
+                MySqlConnection con = new MySqlConnection(cs);
+                MySqlCommand cmd = new MySqlCommand("SELECT * FROM `web1`.`assignment_info` WHERE A_ID=@A_ID;", con);
+                cmd.Parameters.AddWithValue("@A_ID", Session["A_ID"]);
+                con.Open();
+                MySqlDataReader r1 = cmd.ExecuteReader();
+                while (r1.Read())
+                {
+                    lbl_id.Text = Convert.ToString(r1["A_ID"]);
+                    lbl_title.Text = Convert.ToString(r1["ASSIGNMENT_TITLE"]);
+                    lbl_course.Text = Convert.ToString(r1["COURSE"]);
+                    lbl_branch.Text = Convert.ToString(r1["BRANCH"]);
+                    lbl_sem.Text = Convert.ToString(r1["SEMESTER"]);
+                    lbl_class.Text = Convert.ToString(r1["CLASS"]);
+                    lbl_spl.Text = Convert.ToString(r1["SPECIALISATION"]);
+                    lbl_deadline.Text = r1["DEADLINE"].ToString();
+                    lbl_dateasgn.Text = Convert.ToString(r1["DATE_ASSIGNED"]);
+                    lbl_sub.Text = Convert.ToString(r1["SUBJECT"]);
+                    lbl_scode.Text = Convert.ToString(r1["SUBJECT_CODE"]);
+                    lbl_marks.Text = Convert.ToString(r1["MAX_MARKS"]);
 
+                }
+                con.Close();
             }
-            con.Close();
+            catch (Exception)
+            {
+                Response.Write("<script>alert('SOME ERROR OCCURRED')</script>");
+                Response.Redirect("~/Teacher_DashBoard.aspx");
+            }
         }
     }
 }

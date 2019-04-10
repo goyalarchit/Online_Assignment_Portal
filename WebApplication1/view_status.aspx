@@ -1,65 +1,18 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="view_status.aspx.cs" Inherits="WebApplication1.view_status" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="view_status.aspx.cs" Inherits="WebApplication1.view_status" MasterPageFile="~/Site3.Master" %>
+<asp:Content ID="view_status" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+</asp:Content>
+<asp:Content ID="view" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-<!DOCTYPE html>
+    <div class="box">
+        <div class="box-top">
+        </div>
+        <div class="box-in" style="overflow: scroll; width: 709px;">
+            <h2>View Assignments</h2>
+            <br />
+            <br />
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-    <style type="text/css">
-        .auto-style1 {
-            margin-left: 40px;
-        }
-        .auto-style2 {
-            width: 894px;
-        }
-        .auto-style4 {
-            width: 913px;
-        }
-        .auto-style6 {
-            width: 246px;
-        }
-        .auto-style7 {
-            width: 1089px;
-        }
-        .auto-style8 {
-            width: 253px;
-        }
-        .auto-style9 {
-            width: 282px;
-        }
-    </style>
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div>
-        <table style="width:100%;">
-            <tr>
-                <td class="auto-style4">&nbsp;</td>
-                <td class="auto-style7">&nbsp;</td>
-                <td class="auto-style2">&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style4">
-                    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
-                </td>
-                <td class="auto-style7">&nbsp;</td>
-                <td class="auto-style2">
-                    <asp:LinkButton ID="LinkButton1" runat="server">Logout</asp:LinkButton>
-                </td>
-            </tr>
-            <tr>
-                <td class="auto-style4">&nbsp;</td>
-                <td class="auto-style7">&nbsp;</td>
-                <td class="auto-style2">&nbsp;</td>
-            </tr>
-            </table>
-
-        <table style="width:100%;">
-            <tr>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <asp:GridView ID="g1" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None"  >
+            <asp:GridView ID="g1" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None"  >
 
 
 
@@ -97,67 +50,14 @@
 
 
                 </asp:GridView>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td>
-                    <br />
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    &nbsp;</td>
-            </tr>
-            <tr>
-                <td>
-                    &nbsp;</td>
-            </tr>
-            <tr>
-                <td>
-                    &nbsp;</td>
-            </tr>
-            <tr>
-                <td>
-                    &nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style1">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </td>
-            </tr>
-        </table>
+            
+            <br />
+            <br />
+            <h4 style="color:crimson">Submit Your Assignment Below </h4>
+
         <br />
         <br />
         <table style="width:100%;">
-            <tr>
-                <td class="auto-style6">&nbsp;</td>
-                <td class="auto-style9">SUBMIT YOUR ASSIGNMENT BELOW</td>
-                <td class="auto-style8">&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style6">&nbsp;</td>
-                <td class="auto-style9">&nbsp;</td>
-                <td class="auto-style8">&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style6">&nbsp;</td>
-                <td class="auto-style9">&nbsp;</td>
-                <td class="auto-style8">&nbsp;</td>
-            </tr>
             <tr>
                 <td class="auto-style6">
                     <asp:DropDownList ID="DropDownList1" runat="server">
@@ -183,7 +83,16 @@
                 <td class="auto-style8">&nbsp;</td>
             </tr>
         </table>
+
+            <br />
+
+        </div>
     </div>
-    </form>
-</body>
-</html>
+    <div>
+    </div>
+
+
+    <div>
+    </div>
+
+</asp:Content>   

@@ -1,97 +1,201 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="successful.aspx.cs" Inherits="WebApplication1.successful" %>
-
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-    <style type="text/css">
-        .auto-style1 {
-            width: 658px;
-        }
-        .auto-style2 {
-            width: 519px;
-        }
-    </style>
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div>
-           
-        <table style="width:100%;">
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">
-                    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
-                </td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>
-                    <asp:LinkButton ID="LinkButton1" runat="server">Logout</asp:LinkButton>
-                </td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">
-                    <asp:Button ID="Button1" runat="server" Height="47px" Text="CREATE ASSIGNMENT" Width="231px" OnClick="Button1_Click" />
-                </td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">
-                    <asp:Button ID="Button2" runat="server" Height="47px" Text="VIEW ASSIGNMENT" Width="231px" OnClick="Button2_Click" />
-                </td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">
-                    <asp:Button ID="Button3" runat="server" Height="47px" Text="SUBMIT ASSIGNMENT" Width="231px" OnClick="Button3_Click" />
-                </td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style2">&nbsp;</td>
-                <td class="auto-style1">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-        </table>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="successful.aspx.cs" Inherits="WebApplication1.successful" MasterPageFile="~/Site3.Master" %>
+<asp:Content ID="teacher_detail" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+</asp:Content>
+<asp:Content ID="teacher_dashboard" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     
+    <div class="box">
+        <div class="box-top">
         </div>
-    </form>
-</body>
-</html>
+        <div class="box-in">
+            <h2> Student Details</h2>
+        <table style="border-style: none; border-width: thin; border-color: #FFFFFF; background-color: #FFFFFF; table-layout: auto">
+            <tr>
+                <td class="auto-style7" style="width: 105px">
+
+                    &nbsp;</td>
+                
+                <td class="auto-style7" style="width: 229px">
+
+                    NAME</td>
+                
+                <td class="auto-style5" style="width: 299px">
+
+                    <asp:Label ID="lbl_name" runat="server"></asp:Label>
+
+                </td>
+                
+            </tr>
+
+
+
+            <tr>
+                <td class="auto-style8" style="width: 105px">
+
+                    &nbsp;</td>
+                
+                <td class="auto-style8" style="width: 229px">
+
+                    SAP ID</td>
+                
+                <td class="auto-style9" style="width: 299px">
+
+                    <asp:Label ID="lbl_sap" runat="server"></asp:Label>
+
+                </td>
+                
+            </tr>
+
+
+
+            <tr>
+                <td class="auto-style7" style="width: 105px">
+
+                    &nbsp;</td>
+                
+                <td class="auto-style7" style="width: 229px">
+
+                    ROLL NUMBER</td>
+                
+                <td class="auto-style5" style="width: 299px">
+
+                    <asp:Label ID="lbl_rollno" runat="server"></asp:Label>
+
+                </td>
+                
+            </tr>
+
+
+
+            <tr>
+                <td class="auto-style7" style="width: 105px">
+
+                    &nbsp;</td>
+                
+                <td class="auto-style7" style="width: 229px">
+
+                    COURSE</td>
+                
+                <td class="auto-style5" style="width: 299px">
+
+                    <asp:Label ID="lbl_course" runat="server"></asp:Label>
+
+                </td>
+                
+            </tr>
+
+
+
+            <tr>
+                <td class="auto-style7" style="width: 105px">
+
+                    &nbsp;</td>
+                
+                <td class="auto-style7" style="width: 229px">
+
+                    BRANCH</td>
+                
+                <td class="auto-style5" style="width: 299px">
+
+                    <asp:Label ID="lbl_branch" runat="server"></asp:Label>
+
+                </td>
+                
+            </tr>
+
+
+
+            <tr>
+                <td class="auto-style7" style="width: 105px">
+
+                    &nbsp;</td>
+                
+                <td class="auto-style7" style="width: 229px">
+
+                    SPECIALISATION</td>
+                
+                <td class="auto-style5" style="width: 299px">
+
+                    <asp:Label ID="lbl_spl" runat="server"></asp:Label>
+
+                </td>
+                
+            </tr>
+
+
+
+            <tr>
+                <td class="auto-style7" style="width: 105px">
+
+                    &nbsp;</td>
+                
+                <td class="auto-style7" style="width: 229px">
+
+                    CLASS</td>
+                
+                <td class="auto-style5" style="width: 299px">
+
+                    <asp:Label ID="lbl_class" runat="server"></asp:Label>
+
+                </td>
+                
+            </tr>
+
+
+
+            <tr>
+                <td class="auto-style7" style="width: 105px">
+
+                    &nbsp;</td>
+                
+                <td class="auto-style7" style="width: 229px">
+
+                    SEMESTER</td>
+                
+                <td class="auto-style5" style="width: 299px">
+
+                    <asp:Label ID="lbl_sem" runat="server"></asp:Label>
+
+                </td>
+                
+            </tr>
+
+
+
+            <tr>
+                <td class="auto-style7" style="width: 105px">
+
+                    &nbsp;</td>
+                
+                <td class="auto-style7" style="width: 229px">
+
+                    &nbsp;</td>
+                
+                <td class="auto-style5" style="width: 299px">
+
+                    &nbsp;</td>
+                
+            </tr>
+
+
+
+            </table>
+    
+            <br />
+            <h4 >
+                    &nbsp;</h4>
+            
+        </div>
+    </div>
+    <div>
+    
+         
+    </div>
+
+
+    <div>
+
+    
+        
+    </div>
+</asp:Content>

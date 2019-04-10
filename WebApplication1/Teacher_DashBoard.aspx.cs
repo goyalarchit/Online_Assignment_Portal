@@ -14,33 +14,46 @@ namespace WebApplication1
         String cs = @"server=localhost;Database=web1;Uid=root;Pwd=mysql;";
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.UrlReferrer != null)
+            if (Request.UrlReferrer != null && Session["ID"]!=null)
             {
-                MySqlConnection con = new MySqlConnection(cs);
-                con.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT NAME FROM `web1`.`teacher_info` WHERE `SAP_ID`=@SAP_ID;", con);
-                cmd.Parameters.AddWithValue("@SAP_ID", Session["ID"]);
-                object result = cmd.ExecuteScalar();
-                result = result == DBNull.Value ? null : result;
-                Session["NAME"] = Convert.ToString(result);
-                con.Close();
-                Label1.Text = "Welcome " + Session["ID"] + ", " + Session["NAME"];
+                if(!populate_names())
+                {
+                    Response.Write("<script>alert('SOME ERROR OCCURED')</script>");
+                    Response.Redirect("~/login.aspx");
+                }
             }
             else
                 Response.Redirect("login.aspx");
 
         }
 
-        protected void Button1_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("create.aspx");
-        }
-
-        protected void Button2_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("view.aspx");
-        }
-
         
+        protected bool populate_names()
+        {
+
+            try
+            {
+                MySqlConnection con = new MySqlConnection(cs);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("SELECT * FROM `web1`.`teacher_info` WHERE `SAP_ID`=@SAP_ID;", con);
+                cmd.Parameters.AddWithValue("@SAP_ID", Session["ID"]);
+                MySqlDataReader r1 = cmd.ExecuteReader();
+                while (r1.Read())
+                {
+                    lbl_name.Text = r1["NAME"].ToString();
+                    lbl_sap.Text = r1["SAP_ID"].ToString();
+                    lbl_empno.Text = r1["EMP_NO"].ToString();
+
+                }
+                Session["NAME"] = lbl_name.Text;
+                con.Close();
+                Label1.Text = "Welcome " + Session["ID"] + ", " + Session["NAME"];
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

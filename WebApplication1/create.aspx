@@ -1,77 +1,15 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="create.aspx.cs" Inherits="WebApplication1.create" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="create.aspx.cs" Inherits="WebApplication1.create" MasterPageFile="~/Site2.Master" %>
+<asp:Content ID="teacher_detail" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+</asp:Content>
+<asp:Content ID="view" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-<!DOCTYPE html>
+    <div class="box">
+        <div class="box-top">
+        </div>
+        <div class="box-in" style="overflow: scroll; width: 668px;">
+            <h2>Create Assignment</h2>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-    <style type="text/css">
-        .auto-style1 {
-            width: 107px;
-        }
-        .auto-style2 {
-            width: 1257px;
-        }
-        .auto-style3 {
-            width: 220px;
-        }
-        .auto-style5 {
-            width: 580px;
-        }
-        .auto-style6 {
-            width: 604px;
-        }
-        .auto-style7 {
-            width: 600px;
-        }
-        .auto-style8 {
-            width: 715px;
-        }
-        .auto-style9 {
-            width: 540px;
-        }
-        .auto-style10 {
-            width: 600px;
-            height: 26px;
-        }
-        .auto-style11 {
-            width: 220px;
-            height: 26px;
-        }
-        .auto-style12 {
-            width: 540px;
-            height: 26px;
-        }
-        .auto-style13 {
-            width: 715px;
-            height: 26px;
-        }
-    </style>
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div>
-        <table style="width:100%;">
-            <tr>
-                <td class="auto-style6">&nbsp;</td>
-                <td class="auto-style5">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style6">
-                    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
-                </td>
-                <td class="auto-style5">&nbsp;</td>
-                <td>
-                    <asp:LinkButton ID="LinkButton1" runat="server">Logout</asp:LinkButton>
-                </td>
-            </tr>
-            <tr>
-                <td class="auto-style6">&nbsp;</td>
-                <td class="auto-style5">&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            </table>
             <table class="auto-style2">
             <tr>
                 <td class="auto-style7">&nbsp;</td>
@@ -244,23 +182,18 @@
                 </td>
                 <td class="auto-style8">&nbsp;</td>
             </tr>
-            <tr>
-                <td class="auto-style7">&nbsp;</td>
-                <td class="auto-style3">&nbsp;</td>
-                <td class="auto-style9">&nbsp;</td>
-                <td class="auto-style8">&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style7">&nbsp;</td>
-                <td class="auto-style3">&nbsp;</td>
-                <td class="auto-style9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <asp:LinkButton ID="LinkButton2" runat="server" OnClick="LinkButton1_Click">Go Back To DashBoard</asp:LinkButton>
-                </td>
-                <td class="auto-style8">&nbsp;</td>
-            </tr>
-        </table>
-    
+            </table>
+            <br />
+            <h4>&nbsp;</h4>
+
+        </div>
     </div>
-    </form>
-</body>
-</html>
+    <div>
+    </div>
+
+
+    <div>
+    </div>
+
+</asp:Content>
+    

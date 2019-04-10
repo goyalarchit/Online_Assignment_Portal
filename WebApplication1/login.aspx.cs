@@ -25,22 +25,31 @@ namespace WebApplication1
         }
         private bool authenticate(string uname,string upass,int usrtyp)
         {
-            MySqlConnection con = new MySqlConnection(cs);
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand("Select count(*) from login_info where SAP_ID=@SAP_ID AND PWD=@PWD AND UTYPE=@UTYPE;",con);
-            cmd.Parameters.AddWithValue("@SAP_ID", uname);
-            cmd.Parameters.AddWithValue("@PWD", upass);
-            cmd.Parameters.AddWithValue("@UTYPE", usrtyp);
-            object result = cmd.ExecuteScalar();
-            result = result == DBNull.Value ? null : result;
-            int flag = Convert.ToInt32(result);
-            con.Close();
-            if (flag==1)
+            try
             {
-                Session["ID"] = uname;
-                return true;
+                MySqlConnection con = new MySqlConnection(cs);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("Select count(*) from login_info where SAP_ID=@SAP_ID AND PWD=@PWD AND UTYPE=@UTYPE;", con);
+                cmd.Parameters.AddWithValue("@SAP_ID", uname);
+                cmd.Parameters.AddWithValue("@PWD", upass);
+                cmd.Parameters.AddWithValue("@UTYPE", usrtyp);
+                object result = cmd.ExecuteScalar();
+                result = result == DBNull.Value ? null : result;
+                int flag = Convert.ToInt32(result);
+                con.Close();
+                if (flag == 1)
+                {
+                    Session["ID"] = uname;
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+
+                Response.Write("<script>alert('SOME ERROR OCCURED')</script>");
+                return false;
+            }
         }
 
         protected int usertype()
@@ -61,21 +70,25 @@ namespace WebApplication1
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TextBox1.Text) || string.IsNullOrWhiteSpace(TextBox2.Text) || usertype() < 0)
-                Response.Write("<script>alert('FILL ALL REQUIRED FIELDS')</script>");
+            if (string.IsNullOrWhiteSpace(TextBox1.Text))
+                Label1.Text = "This Field Is Mandatory";
+            if (string.IsNullOrWhiteSpace(TextBox2.Text))
+                Label2.Text = "This Field Is Mandatory";
+            if (usertype()<0)
+                Label3.Text = "This Field Is Mandatory";
             else
             {
                 int utype = usertype();
                 if (authenticate(TextBox1.Text, TextBox2.Text, utype))
                 {
                     if(utype==1)
-                        Response.Redirect("view_status.aspx");
+                        Response.Redirect("successful.aspx");
                     else
                         Response.Redirect("Teacher_DashBoard.aspx");
                 }
                 else
                 {
-                    Response.Write("<script>alert('INCORRECT USERNAME / PASSWORD')</script>");
+                    Label4.Text="INCORRECT USERNAME / PASSWORD";
                 }
             }
         }
