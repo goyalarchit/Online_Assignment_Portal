@@ -16,8 +16,7 @@
             <h2>Created By</h2>
             <ul class="main-list">
                 <li><strong>Archit Goyal</strong>, B-Tech CSE-A 2nd year </li>
-                <li><strong>Tushar Goyal,</strong> B-Tech CSE-A 2nd year</li>
-                <li><strong>Ashwini,</strong> B-Tech CSE-A 2nd year</li>
+                
                 
             </ul>
         </div>
