@@ -128,11 +128,18 @@ namespace WebApplication1
             {
                 if (update_db_assignment())
                 {
-                    find_aid();
-                    if (upload())
+                    if (find_aid())
                     {
-                        if (update_description())
-                            Response.Write("<script>alert('ASSIGNMENT CREATED SUCCESSFULLY')</script>");
+                        if (upload())
+                        {
+                            if (update_description())
+                                Response.Write("<script>alert('ASSIGNMENT CREATED SUCCESSFULLY')</script>");
+                            else
+                            {
+                                roll_back_assignment();
+                                Response.Write("<script>alert('ASSIGNMENT CAN NOT BE CREATED<br> PLEASE TRY AGAIN')</script>");
+                            }
+                        }
                         else
                         {
                             roll_back_assignment();
@@ -368,16 +375,24 @@ namespace WebApplication1
             }
             return flag;
         }
-        public void find_aid()
+        public bool find_aid()
         {
-            MySqlConnection con = new MySqlConnection(cs);
-            MySqlCommand cmd = new MySqlCommand("SELECT * FROM web1.assignment_info where DATE_ASSIGNED=(SELECT MAX(DATE_ASSIGNED) FROM web1.assignment_info) AND SAP_ID_TEACHER=@SAP_ID;", con);
-            con.Open();
-            cmd.Parameters.AddWithValue("@SAP_ID", Session["ID"]);
-            object result = cmd.ExecuteScalar();
-            result = result == DBNull.Value ? null : result;
-            Aid = result.ToString();
-            con.Close();
+            try
+            {
+                MySqlConnection con = new MySqlConnection(cs);
+                MySqlCommand cmd = new MySqlCommand("SELECT * FROM web1.assignment_info where DATE_ASSIGNED=(SELECT MAX(DATE_ASSIGNED) FROM web1.assignment_info) AND SAP_ID_TEACHER=@SAP_ID;", con);
+                con.Open();
+                cmd.Parameters.AddWithValue("@SAP_ID", Session["ID"]);
+                object result = cmd.ExecuteScalar();
+                result = result == DBNull.Value ? null : result;
+                Aid = result.ToString();
+                con.Close();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         protected void Calendar1_DayRender(object sender, DayRenderEventArgs e)

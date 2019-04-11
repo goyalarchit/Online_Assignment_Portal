@@ -21,14 +21,6 @@ namespace WebApplication1
                 Response.Redirect("login.aspx");
             if (!IsPostBack)
             {
-                MySqlConnection con = new MySqlConnection(cs);
-                con.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT NAME FROM `web1`.`student_info` WHERE `SAP_ID`=@SAP_ID;", con);
-                cmd.Parameters.AddWithValue("@SAP_ID", Session["ID"]);
-                object result = cmd.ExecuteScalar();
-                result = result == DBNull.Value ? null : result;
-                Session["NAME"] = Convert.ToString(result);
-                con.Close();
                 Label1.Text = "Welcome " + Session["ID"] + ", " + Session["NAME"];
                 statustable();
                 populate_ddl();
@@ -36,66 +28,74 @@ namespace WebApplication1
         }
         protected void statustable()
         {
-            MySqlConnection con = new MySqlConnection(cs);
-            
-            string cd = "SELECT * FROM `web1`.`assignment_info` A JOIN `web1`.`student_info` B ON A.COURSE=B.COURSE AND A.BRANCH=B.BRANCH AND A.SPECIALISATION =B.SPECIALISATION AND A.CLASS=B.CLASS AND A.SEMESTER=B.SEMESTER WHERE SAP_ID=@SAP_ID ;";
-            string cd1 = "SELECT * FROM `web1`.`submit_info` A JOIN `web1`.`student_info` B ON A.SAP_ID=B.SAP_ID WHERE A.SAP_ID=@SAP_ID;";
-            MySqlCommand cmd = new MySqlCommand(cd, con);
-            cmd.Parameters.AddWithValue("@SAP_ID", Session["ID"]);
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-            DataSet ds = new DataSet();
-            ds.Tables.Add("t1");
-            ds.Tables.Add("t2");
-            da.Fill(ds.Tables["t1"]);
-            
-            cmd.CommandText = cd1;
-            da.SelectCommand=cmd;
-            da.Fill(ds.Tables["t2"]);
-            ds.Tables["t1"].Columns.Add("STATUS");
-            ds.Tables["t1"].Columns.Add("GRADE");
-            int i = ds.Tables["t1"].Rows.Count;
-            int j = ds.Tables["t1"].Rows.Count;
-            int flag = 0;
-            DataTable asgn = ds.Tables["t1"];
-            DataTable rd = ds.Tables["t2"];
-            foreach(DataRow row in asgn.Rows)
+            try
             {
-                flag = 0;
-                foreach (DataRow row2 in rd.Rows)
+                MySqlConnection con = new MySqlConnection(cs);
+
+                string cd = "SELECT * FROM `web1`.`assignment_info` A JOIN `web1`.`student_info` B ON A.COURSE=B.COURSE AND A.BRANCH=B.BRANCH AND A.SPECIALISATION =B.SPECIALISATION AND A.CLASS=B.CLASS AND A.SEMESTER=B.SEMESTER WHERE SAP_ID=@SAP_ID ;";
+                string cd1 = "SELECT * FROM `web1`.`submit_info` A JOIN `web1`.`student_info` B ON A.SAP_ID=B.SAP_ID WHERE A.SAP_ID=@SAP_ID;";
+                MySqlCommand cmd = new MySqlCommand(cd, con);
+                cmd.Parameters.AddWithValue("@SAP_ID", Session["ID"]);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                ds.Tables.Add("t1");
+                ds.Tables.Add("t2");
+                da.Fill(ds.Tables["t1"]);
+
+                cmd.CommandText = cd1;
+                da.SelectCommand = cmd;
+                da.Fill(ds.Tables["t2"]);
+                ds.Tables["t1"].Columns.Add("STATUS");
+                ds.Tables["t1"].Columns.Add("GRADE");
+                int i = ds.Tables["t1"].Rows.Count;
+                int j = ds.Tables["t1"].Rows.Count;
+                int flag = 0;
+                DataTable asgn = ds.Tables["t1"];
+                DataTable rd = ds.Tables["t2"];
+                foreach (DataRow row in asgn.Rows)
                 {
-                    if ((Convert.ToString(row["A_ID"])).Equals(Convert.ToString( row2["A_ID"])))
+                    flag = 0;
+                    foreach (DataRow row2 in rd.Rows)
                     {
-                        if (row2["GRADE"] == null)
+                        if ((Convert.ToString(row["A_ID"])).Equals(Convert.ToString(row2["A_ID"])))
                         {
+                            if (String.IsNullOrEmpty(row2["GRADE"].ToString()))
+                            {
+                                row["GRADE"] = null;
+                                row["STATUS"] = "SUBMITTED";
+                            }
+                            else
+                            {
+                                row["GRADE"] = Convert.ToString(row2["GRADE"]);
+                                row["STATUS"] = "GRADED";
+                            }
+                            flag = 1;
+                        }
+                    }
+                    if (flag == 0)
+                    {
+                        DateTime date = Convert.ToDateTime(row["DEADLINE"]);
+                        if (date < DateTime.Now)
+                        {
+                            row["STATUS"] = "DELAYED";
                             row["GRADE"] = null;
-                            row["STATUS"] = "SUBMITTED";
                         }
                         else
                         {
-                            row["GRADE"] = Convert.ToString(row2["GRADE"]);
-                            row["STATUS"] = "GRADED";
+                            row["STATUS"] = "PENDING";
+                            row["GRADE"] = null;
                         }
-                        flag = 1;
                     }
                 }
-                if(flag==0)
-                {
-                    DateTime date = Convert.ToDateTime(row["DEADLINE"]);
-                    if (date < DateTime.Now)
-                    {
-                        row["STATUS"] = "DELAYED";
-                        row["GRADE"] = null;
-                    }
-                    else
-                    {
-                        row["STATUS"] = "PENDING";
-                        row["GRADE"] = null;
-                    }
-                }
+                Ds1 = ds;
+                g1.DataSource = ds.Tables["t1"];
+                g1.DataBind();
             }
-            Ds1 = ds;
-            g1.DataSource = ds.Tables["t1"];
-            g1.DataBind();
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         protected void LinkButton1_Click(object sender, EventArgs e)
@@ -118,7 +118,7 @@ namespace WebApplication1
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            if(Convert.ToString(DropDownList1.SelectedValue).Equals("Select Assignment ID"))
+            if(Convert.ToString(DropDownList1.SelectedValue).Equals("SELECT ASSIGNMENT ID"))
             {
                 lbl_upload.Text = "Please Select An Assignment ID";
                 lbl_upload.ForeColor = System.Drawing.Color.Red;
@@ -128,13 +128,16 @@ namespace WebApplication1
                 Aid = DropDownList1.SelectedValue;
                 if (upload())
                     {
-                        if (update_submit())
-                            Response.Write("<script>alert('ASSIGNMENT SUBMITTED SUCCESSFULLY')</script>");
-                        else
-                        {
-                            delete_upload();
-                            Response.Write("<script>alert('ASSIGNMENT CAN NOT BE SUBMITTED<br> PLEASE TRY AGAIN')</script>");
-                        }
+                    if (update_submit())
+                    {
+                        Response.Write("<script>alert('ASSIGNMENT SUBMITTED SUCCESSFULLY')</script>");
+                        Response.Redirect("~/view_status.aspx");
+                    }
+                    else
+                    {
+                        delete_upload();
+                        Response.Write("<script>alert('ASSIGNMENT CAN NOT BE SUBMITTED<br> PLEASE TRY AGAIN')</script>");
+                    }
                     }
                 else
                     Response.Write("<script>alert('ASSIGNMENT CAN NOT BE SUBMITTED<br> PLEASE TRY AGAIN')</script>");
@@ -183,23 +186,30 @@ namespace WebApplication1
         private bool update_submit()
         {
 
-            MySqlConnection con = new MySqlConnection(cs);
-            con.Open();
-            MySqlCommand cmd = new MySqlCommand("INSERT INTO `web1`.`submit_info` (`SAP_ID`, `ROLL_NO`, `NAME`, `FILE_LOCATION`, `GRADE`, `A_ID`) VALUES(@SAP_ID, @ROLL_NO, @NAME, @FILE_LOCATION, '', @A_ID);", con);
-            cmd.Parameters.AddWithValue("@SAP_ID", Session["ID"]);
-            cmd.Parameters.AddWithValue("@ROLL_NO", Ds1.Tables["t1"].Rows[0]["ROLL_NO"]);
-            cmd.Parameters.AddWithValue("@NAME", Ds1.Tables["t1"].Rows[0]["NAME"]);
-            cmd.Parameters.AddWithValue("@FILE_LOCATION", filelocation);
-            cmd.Parameters.AddWithValue("@ROLL_NO", Aid);
-            object result = cmd.ExecuteNonQuery();
-            result = result == DBNull.Value ? null : result;
-            int flag = Convert.ToInt32(result);
-            con.Close();
-            if (flag == 1)
+            try
             {
-                return true;
+                MySqlConnection con = new MySqlConnection(cs);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("INSERT INTO `web1`.`submit_info` (`SAP_ID`, `ROLL_NO`, `NAME`, `FILE_LOCATION`, `GRADE`, `A_ID`) VALUES(@SAP_ID, @ROLL_NO, @NAME, @FILE_LOCATION, '', @A_ID);", con);
+                cmd.Parameters.AddWithValue("@SAP_ID", Session["ID"]);
+                cmd.Parameters.AddWithValue("@ROLL_NO", Session["ROLL_NO"]);
+                cmd.Parameters.AddWithValue("@NAME", Session["NAME"]);
+                cmd.Parameters.AddWithValue("@FILE_LOCATION", filelocation);
+                cmd.Parameters.AddWithValue("@A_ID", Aid);
+                object result = cmd.ExecuteNonQuery();
+                result = result == DBNull.Value ? null : result;
+                int flag = Convert.ToInt32(result);
+                con.Close();
+                if (flag == 1)
+                {
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public void delete_upload()

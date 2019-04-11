@@ -47,6 +47,7 @@ namespace WebApplication1
                     lbl_sem.Text = r1["SEMESTER"].ToString();
                 }
                 Session["NAME"] = lbl_name.Text;
+                Session["ROLL_NO"] = lbl_rollno.Text;
                 con.Close();
                 Label1.Text = "Welcome " + Session["ID"] + ", " + Session["NAME"];
             }
